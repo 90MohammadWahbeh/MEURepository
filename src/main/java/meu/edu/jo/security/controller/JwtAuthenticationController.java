@@ -19,11 +19,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import meu.edu.jo.security.utils.JwtTokenUtil;
 import meu.edu.jo.entities.Users;
 import meu.edu.jo.repositories.UsersRepository;
 import meu.edu.jo.security.model.JwtRequest;
-import meu.edu.jo.security.model.JwtResponse;
+import meu.edu.jo.security.utils.JwtTokenUtil;
 
 
 @CrossOrigin(origins = "*")

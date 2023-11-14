@@ -11,7 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 public class MeuDemoServiceApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(MeuDemoServiceApplication.class, args);
+	SpringApplication.run(MeuDemoServiceApplication.class, args);
 	}
 
 }

@@ -1,17 +1,15 @@
 package meu.edu.jo.services;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import meu.edu.jo.common.SystemMessages;
 import meu.edu.jo.common.exceptions.CustomException;
-import meu.edu.jo.entities.Degrees;
 import meu.edu.jo.entities.Menu;
-import meu.edu.jo.entities.SystemCodes;
 import meu.edu.jo.repositories.MenuRepository;
-
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class MenuService {

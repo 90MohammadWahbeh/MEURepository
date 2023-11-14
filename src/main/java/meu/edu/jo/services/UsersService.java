@@ -3,7 +3,6 @@ package meu.edu.jo.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.CrossOrigin;
 
 import meu.edu.jo.common.SystemMessages;
 import meu.edu.jo.common.exceptions.CustomException;

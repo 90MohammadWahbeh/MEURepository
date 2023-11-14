@@ -5,7 +5,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import meu.edu.jo.entities.Degrees;
 import meu.edu.jo.entities.Menu;
 import meu.edu.jo.services.MenuService;
 import meu.edu.jo.common.SystemMessages;

@@ -6,9 +6,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.env.Environment;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
@@ -23,8 +20,6 @@ public class JwtTokenUtil implements Serializable {
 
 	public static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60;
 
-	@Autowired
-	private Environment env;
 
 	public String getUsernameFromToken(String token) {
 		return getClaimFromToken(token, Claims::getSubject);
