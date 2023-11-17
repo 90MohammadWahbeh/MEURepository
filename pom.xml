@@ -109,7 +109,7 @@
 				<artifactId>jib-maven-plugin</artifactId>
 				<version>3.2.0</version>
 				<configuration>
-					<!-- Jib configuration options go here -->
+				
 				</configuration>
 			</plugin>
 		</plugins>
