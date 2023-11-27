@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import meu.edu.jo.common.SystemMessages;
 import meu.edu.jo.common.exceptions.CustomException;
+import meu.edu.jo.entities.Activities;
 import meu.edu.jo.entities.Conference;
 import meu.edu.jo.repositories.ConferenceRepository;
 
@@ -34,7 +35,7 @@ public class ConferenceService {
             conference.setUserId(rs.getLong("User_Id"));
             conference.setLocation(rs.getString("Location"));
             conference.setTheDate(rs.getDate("The_Date"));
-            conference.setTheType(rs.getInt("The_Type"));
+            conference.setTheType(rs.getLong("The_Type"));
             conference.setTitle(rs.getString("Title"));
             conference.setConferenceFile(rs.getBytes("Conference_File"));
             return conference;
@@ -43,6 +44,8 @@ public class ConferenceService {
         if (conferences.isEmpty()) {
             throw new CustomException(SystemMessages.NO_RECORDS);
         }
+        
+        mapValues(conferences);
         return conferences;
     }
 
@@ -55,7 +58,7 @@ public class ConferenceService {
             conference.setUserId(rs.getLong("User_Id"));
             conference.setLocation(rs.getString("Location"));
             conference.setTheDate(rs.getDate("The_Date"));
-            conference.setTheType(rs.getInt("The_Type"));
+            conference.setTheType(rs.getLong("The_Type"));
             conference.setTitle(rs.getString("Title"));
             conference.setConferenceFile(rs.getBytes("Conference_File"));
             return conference;
@@ -65,6 +68,7 @@ public class ConferenceService {
             throw new CustomException(SystemMessages.NO_RECORDS + id);
         }
 
+        mapValues(conferences);
         return Optional.of(conferences.get(0));
     }
 
@@ -140,4 +144,29 @@ public class ConferenceService {
     public Conference saveConference(Conference conference) {
         return conferenceRepository.save(conference);
     }
+    
+    
+    
+    
+    
+	private void mapValues(List<Conference> conferences) {
+		conferences.forEach(conference -> {
+			conference.setTheTypeDescription(mapConferenceType(conference.getTheType()));
+		});
+	}
+
+	private String mapConferenceType(Long theType) {
+		switch (theType.intValue()) {
+		case 1:
+			return "حضور";
+		case 2:
+			return "مشاركة ببحث";
+		case 3:
+			return "عضوية لجنة";
+		default:
+			return null; // Or throw an exception for an unexpected value
+		}
+	}
+    
+    
 }

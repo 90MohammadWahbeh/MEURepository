@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import meu.edu.jo.common.SystemMessages;
 import meu.edu.jo.common.exceptions.CustomException;
 import meu.edu.jo.entities.UniversitySociety;
+import meu.edu.jo.entities.WorkshopLectureSeminar;
 import meu.edu.jo.repositories.UniversitySocietyRepository;
 
 @Service
@@ -33,15 +34,15 @@ public class UniversitySocietyService {
             universitySociety.setId(rs.getLong("Id"));
             universitySociety.setUserId(rs.getLong("User_Id"));
             universitySociety.setTitle(rs.getString("Title"));
-            universitySociety.setTheType(rs.getString("The_Type"));
-            universitySociety.setTheRole(rs.getString("The_Role"));
+            universitySociety.setTheType(rs.getLong("The_Type"));
+            universitySociety.setTheRole(rs.getLong("The_Role"));
             universitySociety.setTheDate(rs.getDate("The_Date"));
             universitySociety.setLocation(rs.getString("Location"));
             universitySociety.setStudentsNumber(rs.getLong("Students_Number"));
             universitySociety.setAcademicStaffNumber(rs.getLong("Academic_Staff_Number"));
             universitySociety.setManagerialStaffNumber(rs.getLong("Managerial_Staff_Number"));
             universitySociety.setNumberOfHours(rs.getLong("Number_of_Hours"));
-            universitySociety.setCategory(rs.getString("Category"));
+            universitySociety.setCategory(rs.getLong("Category"));
             universitySociety.setDescription(rs.getString("Description"));
             universitySociety.setUniversitySocietyFile(rs.getBytes("UniversitySociety_File"));
             return universitySociety;
@@ -50,6 +51,7 @@ public class UniversitySocietyService {
         if (universitySocieties.isEmpty()) {
             throw new CustomException(SystemMessages.NO_RECORDS);
         }
+        mapValues(universitySocieties);
         return universitySocieties;
     }
 
@@ -61,15 +63,15 @@ public class UniversitySocietyService {
             universitySociety.setId(rs.getLong("Id"));
             universitySociety.setUserId(rs.getLong("User_Id"));
             universitySociety.setTitle(rs.getString("Title"));
-            universitySociety.setTheType(rs.getString("The_Type"));
-            universitySociety.setTheRole(rs.getString("The_Role"));
+            universitySociety.setTheType(rs.getLong("The_Type"));
+            universitySociety.setTheRole(rs.getLong("The_Role"));
             universitySociety.setTheDate(rs.getDate("The_Date"));
             universitySociety.setLocation(rs.getString("Location"));
             universitySociety.setStudentsNumber(rs.getLong("Students_Number"));
             universitySociety.setAcademicStaffNumber(rs.getLong("Academic_Staff_Number"));
             universitySociety.setManagerialStaffNumber(rs.getLong("Managerial_Staff_Number"));
             universitySociety.setNumberOfHours(rs.getLong("Number_of_Hours"));
-            universitySociety.setCategory(rs.getString("Category"));
+            universitySociety.setCategory(rs.getLong("Category"));
             universitySociety.setDescription(rs.getString("Description"));
             universitySociety.setUniversitySocietyFile(rs.getBytes("UniversitySociety_File"));
             return universitySociety;
@@ -78,7 +80,7 @@ public class UniversitySocietyService {
         if (universitySocieties.isEmpty()) {
             throw new CustomException(SystemMessages.NO_RECORDS + id);
         }
-
+        mapValues(universitySocieties);
         return Optional.of(universitySocieties.get(0));
     }
 
@@ -173,4 +175,70 @@ public class UniversitySocietyService {
     public UniversitySociety saveUniversitySociety(UniversitySociety universitySociety) {
         return universitySocietyRepository.save(universitySociety);
     }
+    
+	private void mapValues(List<UniversitySociety> universitySocieties) {
+		universitySocieties.forEach(universitySociety -> {
+			universitySociety.setActivityCategoryDescription(mapActivityCategory(universitySociety.getCategory()));
+			universitySociety.setActivityTypeDescription(mapActivityType(universitySociety.getTheType()));
+			universitySociety.setRoleDescription(mapRole(universitySociety.getTheRole()));
+		});
+	}
+
+	private String mapActivityCategory(Long thecategory) {
+		switch (thecategory.intValue()) {
+		case 1:
+			return "منهجي";
+		case 2:
+			return "لا منهجي";
+		default:
+			return null; // Or throw an exception for an unexpected value
+		}
+	}
+	
+	private String mapActivityType(Long activityType) {
+		switch (activityType.intValue()) {
+		case 1:
+			return "دورة";
+		case 2:
+			return "تكريم";
+		case 3:
+			return "دعم";
+		case 4:
+			return "خدمات";
+		case 5:
+			return "مناسبات";
+		case 6:
+			return "منح";
+		case 7:
+			return "بعثات";
+		case 8:
+			return "جوائز";
+		case 9:
+			return "مشاريع ريادية";
+		case 10:
+			return "حاضنات أعمال";
+		case 11:
+			return "أخرى";
+		case 12:
+			return "حملات مادية ومعنوية (إنسانية ، بيئية ، صحية ، أخرى)";
+		case 13:
+			return "مبادرات مادية ومعنوية (إنسانية اقتصادية ، أخلاقية ، بيئية ، قانونية ، صحية ، أخرى)";
+		default:
+			return null; 
+		}
+
+		
+		
+	}
+	
+	private String mapRole(Long theRole) {
+		switch (theRole.intValue()) {
+		case 1:
+			return "مسؤول عن النشاط";
+		case 2:
+			return "مشارك";
+		default:
+			return null; 
+		}
+	}
 }

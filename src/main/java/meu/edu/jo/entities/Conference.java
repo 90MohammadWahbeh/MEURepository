@@ -24,7 +24,7 @@ public class Conference {
     private Date theDate;
 
     @Column(name = "the_type")
-    private int theType;
+    private Long theType;
 
     @Column(name = "title")
     private String title;
@@ -33,5 +33,5 @@ public class Conference {
     @Column(name = "conference_file")
     private byte[] conferenceFile;
 
-
+	private String theTypeDescription;
 }

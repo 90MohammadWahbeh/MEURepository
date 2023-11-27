@@ -1,7 +1,9 @@
 package meu.edu.jo.services;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -38,12 +40,16 @@ public class PersonalInfoService {
 			userProfile.setProgram(rs.getLong("Program"));
 			userProfile.setActivityPeriod(rs.getLong("Activity_Period"));
 			userProfile.setAcademicYear(rs.getLong("Academic_Year"));
+			userProfile.setImage(rs.getBytes("Image"));
 			return userProfile;
 		});
 
 		if (userProfiles.isEmpty()) {
 			throw new CustomException(SystemMessages.NO_RECORDS);
 		}
+
+		mapValues(userProfiles);
+
 		return userProfiles;
 	}
 
@@ -61,13 +67,15 @@ public class PersonalInfoService {
 			profile.setProgram(rs.getLong("Program"));
 			profile.setActivityPeriod(rs.getLong("Activity_Period"));
 			profile.setAcademicYear(rs.getLong("Academic_Year"));
-
+			profile.setImage(rs.getBytes("Image"));
 			return profile;
 		});
 
 		if (profiles.isEmpty()) {
 			throw new CustomException(SystemMessages.NO_RECORDS + id);
 		}
+
+		mapValues(profiles);
 
 		return Optional.of(profiles.get(0));
 	}
@@ -90,50 +98,140 @@ public class PersonalInfoService {
 	}
 
 	public PersonalInfo createUserProfile(PersonalInfo userProfile) {
-	    String sql = "INSERT INTO personal_info (user_id, FULL_NAME, job_number, ranking, department, program, "
-	            + "activity_period, academic_year, image) "
-	            + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		String sql = "INSERT INTO personal_info (user_id, FULL_NAME, job_number, ranking, department, program, "
+				+ "activity_period, academic_year, image) " + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-	    // Set parameters
-	    Object[] params = { userProfile.getUserId(), userProfile.getFullName(),
-	            userProfile.getJobNumber(), userProfile.getRanking(), userProfile.getDepartment(),
-	            userProfile.getProgram(), userProfile.getActivityPeriod(), userProfile.getAcademicYear(),
-	            userProfile.getImage() };
+		// Set parameters
+		Object[] params = { userProfile.getUserId(), userProfile.getFullName(), userProfile.getJobNumber(),
+				userProfile.getRanking(), userProfile.getDepartment(), userProfile.getProgram(),
+				userProfile.getActivityPeriod(), userProfile.getAcademicYear(), userProfile.getImage() };
 
-	    // Execute the INSERT statement and check the result
-	    int result = jdbcTemplate.update(sql, params);
+		// Execute the INSERT statement and check the result
+		int result = jdbcTemplate.update(sql, params);
 
-	    if (result == 1) {
-	        return userProfile;
-	    } else {
-	        throw new CustomException(SystemMessages.OPERATION_FAILED);
-	    }
+		if (result == 1) {
+			return userProfile;
+		} else {
+			throw new CustomException(SystemMessages.OPERATION_FAILED);
+		}
 	}
 
 	public PersonalInfo updatePersonalInfo(Long id, PersonalInfo updatedInfo) {
-	    String updateSql = "UPDATE personal_info SET user_id = ?, FULL_NAME = ?, job_number = ?, ranking = ?, "
-	            + "department = ?, program = ?, activity_period = ?, academic_year = ?, image = ? "
-	            + "WHERE id = ?";
+		String updateSql = "UPDATE personal_info SET user_id = ?, FULL_NAME = ?, job_number = ?, ranking = ?, "
+				+ "department = ?, program = ?, activity_period = ?, academic_year = ?, image = ? " + "WHERE id = ?";
 
-	    // Set parameters
-	    Object[] params = { updatedInfo.getUserId(), updatedInfo.getFullName(),
-	            updatedInfo.getJobNumber(), updatedInfo.getRanking(), updatedInfo.getDepartment(),
-	            updatedInfo.getProgram(), updatedInfo.getActivityPeriod(), updatedInfo.getAcademicYear(),
-	            updatedInfo.getImage(), id };
+		// Set parameters
+		Object[] params = { updatedInfo.getUserId(), updatedInfo.getFullName(), updatedInfo.getJobNumber(),
+				updatedInfo.getRanking(), updatedInfo.getDepartment(), updatedInfo.getProgram(),
+				updatedInfo.getActivityPeriod(), updatedInfo.getAcademicYear(), updatedInfo.getImage(), id };
 
-	    // Execute the UPDATE statement and check the result
-	    int result = jdbcTemplate.update(updateSql, params);
+		// Execute the UPDATE statement and check the result
+		int result = jdbcTemplate.update(updateSql, params);
 
-	    if (result == 1) {
-	        // If the update was successful, return the updated PersonalInfo
-	        return updatedInfo;
-	    } else {
-	        throw new CustomException(SystemMessages.OPERATION_FAILED);
-	    }
+		if (result == 1) {
+			// If the update was successful, return the updated PersonalInfo
+			return updatedInfo;
+		} else {
+			throw new CustomException(SystemMessages.OPERATION_FAILED);
+		}
 	}
 
 	public PersonalInfo saveUserProfile(PersonalInfo userProfile) {
 		return personalInfoRepository.save(userProfile);
 	}
 
+	private void mapValues(List<PersonalInfo> userProfiles) {
+		userProfiles.forEach(profile -> {
+			profile.setAcademicYearDescription(mapAcademicYear(profile.getAcademicYear()));
+			profile.setDepartmentDescription(mapDepartment(profile.getDepartment()));
+			profile.setDegreeDescription(mapDegree(profile.getRanking()));
+			profile.setProgramDescription(mapProgram(profile.getProgram()));
+			profile.setActivityPeriodDescription(mapActivityPeriod(profile.getActivityPeriod()));
+		});
+	}
+
+	private String mapAcademicYear(Long academicYearValue) {
+		switch (academicYearValue.intValue()) {
+		case 1:
+			return "2023/2022";
+		case 2:
+			return "2023/2024";
+		case 3:
+			return "2025/2024";
+
+		default:
+			return null; // Or throw an exception for an unexpected value
+		}
+	}
+
+	private String mapActivityPeriod(Long activityPeriod) {
+		switch (activityPeriod.intValue()) {
+		case 1:
+			return "الربع الأول (شهر 9 - شهر 11)";
+		case 2:
+			return "الربع الأول (شهر 12 - شهر 2)";
+		case 3:
+			return "الربع الأول (شهر 3 - شهر 5)";
+		case 4:
+			return "الربع الأول (شهر 6 - شهر 8)";
+
+		default:
+			return null;
+		}
+	}
+
+	private String mapProgram(Long program) {
+		switch (program.intValue()) {
+		case 1:
+			return "الإدارة والقيادة التربوية";
+		case 2:
+			return "المناهج وطرق التدريس";
+		case 3:
+			return "تكنولوجيا التعليم";
+		case 4:
+			return "اللغة العربية";
+		case 5:
+			return "العلوم  الأساسية الإنسانية";
+		case 6:
+			return "العلوم الأساسية العلمية";
+
+		default:
+			return null;
+		}
+	}
+	
+	private String mapDegree(Long degree) {
+		switch (degree.intValue()) {
+		case 1:
+			return "أستاذ";
+		case 2:
+			return "أستاذ مشارك";
+		case 3:
+			return "أستاذ مساعد";
+		case 4:
+			return "محاضر";
+		default:
+			return null;
+		}
+	}
+	
+	private String mapDepartment(Long department) {
+		switch (department.intValue()) {
+		case 1:
+			return "الإدارة والمناهج";
+		case 2:
+			return "تكنولوجيا التعليم";
+		case 3:
+			return "اللغة الإنجليزيةوآدابها";
+		case 4:
+			return "اللغة العربية";
+		case 5:
+			return "العلوم الإنسانية";
+		case 6:
+			return "العلوم الأساسية العلمية";
+		default:
+			return null;
+		}
+	}
+	
 }

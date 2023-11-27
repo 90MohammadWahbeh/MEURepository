@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import meu.edu.jo.common.SystemMessages;
 import meu.edu.jo.common.exceptions.CustomException;
+import meu.edu.jo.entities.Conference;
 import meu.edu.jo.entities.WorkshopLectureSeminar;
 import meu.edu.jo.repositories.WorkshopLectureSeminarRepository;
 
@@ -37,7 +38,7 @@ public class WorkshopLectureSeminarService {
 			workshop.setMaleNumber(rs.getLong("Male_Number"));
 			workshop.setLocation(rs.getString("Location"));
 			workshop.setTheDate(rs.getDate("The_Date"));
-			workshop.setTheRole(rs.getString("The_Role"));
+			workshop.setTheRole(rs.getLong("The_Role"));
 			workshop.setTitle(rs.getString("Title"));
 			workshop.setTheFile(rs.getBytes("The_File"));
 			return workshop;
@@ -46,6 +47,7 @@ public class WorkshopLectureSeminarService {
 		if (workshops.isEmpty()) {
 			throw new CustomException(SystemMessages.NO_RECORDS);
 		}
+		mapValues(workshops);
 		return workshops;
 	}
 
@@ -61,7 +63,7 @@ public class WorkshopLectureSeminarService {
 			workshop.setMaleNumber(rs.getLong("Male_Number"));
 			workshop.setLocation(rs.getString("Location"));
 			workshop.setTheDate(rs.getDate("The_Date"));
-			workshop.setTheRole(rs.getString("The_Role"));
+			workshop.setTheRole(rs.getLong("The_Role"));
 			workshop.setTitle(rs.getString("Title"));
 			workshop.setTheFile(rs.getBytes("The_File"));
 			return workshop;
@@ -70,7 +72,7 @@ public class WorkshopLectureSeminarService {
 		if (workshops.isEmpty()) {
 			throw new CustomException(SystemMessages.NO_RECORDS + id);
 		}
-
+		mapValues(workshops);
 		return Optional.of(workshops.get(0));
 	}
 
@@ -135,5 +137,24 @@ public class WorkshopLectureSeminarService {
 
 	public WorkshopLectureSeminar saveWorkshop(WorkshopLectureSeminar workshop) {
 		return workshopRepository.save(workshop);
+	}
+	
+	
+	
+	private void mapValues(List<WorkshopLectureSeminar> workshopLectureSeminar) {
+		workshopLectureSeminar.forEach(conference -> {
+			conference.setTheRoleDescription(mapRole(conference.getTheRole()));
+		});
+	}
+
+	private String mapRole(Long theRole) {
+		switch (theRole.intValue()) {
+		case 1:
+			return "مقدم الندوة * المحاضرة / الورشة";
+		case 2:
+			return "مشاركة بالحضور فقط";
+		default:
+			return null; // Or throw an exception for an unexpected value
+		}
 	}
 }

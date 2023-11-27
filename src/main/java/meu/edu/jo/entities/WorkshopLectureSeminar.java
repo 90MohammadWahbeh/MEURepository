@@ -35,7 +35,7 @@ public class WorkshopLectureSeminar {
     private Date theDate;
 
     @Column(name = "the_role")
-    private String theRole;
+    private Long theRole;
 
     @Column(name = "title")
     private String title;
@@ -44,6 +44,6 @@ public class WorkshopLectureSeminar {
     @Column(name = "the_file")
     private byte[] theFile;
 
-
+	private String theRoleDescription;
 
 }

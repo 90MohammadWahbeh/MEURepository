@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import meu.edu.jo.common.SystemMessages;
 import meu.edu.jo.common.exceptions.CustomException;
 import meu.edu.jo.entities.Activities;
+import meu.edu.jo.entities.PersonalInfo;
 import meu.edu.jo.repositories.ActivitiesRepository;
 
 @Service
@@ -47,6 +48,8 @@ public class ActivitiesService {
 		if (activitiesConferences.isEmpty()) {
 			throw new CustomException(SystemMessages.NO_RECORDS);
 		}
+		
+		mapValues(activitiesConferences);
 		return activitiesConferences;
 	}
 
@@ -73,6 +76,7 @@ public class ActivitiesService {
 			throw new CustomException(SystemMessages.NO_RECORDS + id);
 		}
 
+		mapValues(activities);
 		return Optional.of(activities.get(0));
 	}
 
@@ -139,4 +143,93 @@ public class ActivitiesService {
 			throw new CustomException(SystemMessages.OPERATION_FAILED + e.getMessage());
 		}
 	}
+	
+	
+	private void mapValues(List<Activities> activities) {
+		activities.forEach(activity -> {
+			activity.setPublishTypeDescription(mapPublisType(activity.getTheType()));
+			activity.setPublishStatusDescription(mapPublishStatus(activity.getTheStatus()));
+			activity.setPublishLanguageDescription(mapTheLanguage(activity.getTheLanguage()));
+			activity.setPublisherOrderDescription(mapPublisherOrder(activity.getTheOrder()));
+			activity.setIndexingDescription(mapIndexing(activity.getTheIndex()));
+		});
+	}
+
+	private String mapPublisType(Long theType) {
+		switch (theType.intValue()) {
+		case 1:
+			return "نشر بحثي";
+		case 2:
+			return "نشر من رسالة جامعبة";
+		case 3:
+			return "فصل من كتاب";
+		case 4:
+			return "كتاب";
+		case 5:
+			return "ورقة بحثية في كتاب";
+
+		default:
+			return null; // Or throw an exception for an unexpected value
+		}
+	}
+	
+	private String mapPublishStatus(Long theStatus) {
+		switch (theStatus.intValue()) {
+		case 1:
+			return "مقبول للنشر";
+		case 2:
+			return "منشور" ;
+
+		default:
+			return null; // Or throw an exception for an unexpected value
+		}
+	}
+	
+	private String mapTheLanguage(Long theLanguage) {
+		switch (theLanguage.intValue()) {
+		case 1:
+			return "اللغة العربية";
+		case 2:
+			return "اللغة الإنجليزية" ;
+		default:
+			return null; // Or throw an exception for an unexpected value
+		}
+	}
+	
+	private String mapPublisherOrder(Long publisherOrder) {
+		switch (publisherOrder.intValue()) {
+		case 1:
+			return "منفرد";
+		case 2:
+			return "باحث أول" ;
+		case 3:
+			return "باحث ثاني";
+		case 4:
+			return "باحث ثالث";			
+		case 5:
+			return "أخرى";
+
+		default:
+			return null; // Or throw an exception for an unexpected value
+		}
+	}
+	
+	private String mapIndexing(Long indexing) {
+		switch (indexing.intValue()) {
+		case 1:
+			return "SCOPUS";
+		case 2:
+			return "EBSCO";
+		case 3:
+			return "ERIC";
+		case 4:
+			return "WEB OF SCIENCE";			
+		case 5:
+			return "OTHER";
+
+		default:
+			return null; // Or throw an exception for an unexpected value
+		}
+	}
+
 }

@@ -17,7 +17,7 @@ public class Theses {
     private Long userId;
 
     @Column(name = "the_type")
-    private String theType;
+    private Long theType;
 
     @Column(name = "location")
     private String location;
@@ -28,4 +28,6 @@ public class Theses {
     @Lob
     @Column(name = "theses_file")
     private byte[] thesesFile;
+    
+	private String typeDescription;
 }

@@ -46,4 +46,13 @@ public class Activities {
 	@Column(name = "Activity_File")
 	private byte[] activityFile;
 
+	
+	
+	private String publishTypeDescription;
+	private String publishStatusDescription;
+	private String publishLanguageDescription;
+	private String publisherOrderDescription;
+	private String indexingDescription;
+	
+	
 }

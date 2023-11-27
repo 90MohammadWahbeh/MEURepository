@@ -22,10 +22,10 @@ public class UniversitySociety {
     private String title;
 
     @Column(name = "the_type")
-    private String theType;
+    private Long theType;
 
     @Column(name = "the_role")
-    private String theRole;
+    private Long theRole;
 
     @Column(name = "the_date")
     private Date theDate;
@@ -46,7 +46,7 @@ public class UniversitySociety {
     private Long numberOfHours;
 
     @Column(name = "category")
-    private String category;
+    private Long category;
 
     @Column(name = "description")
     private String description;
@@ -54,5 +54,9 @@ public class UniversitySociety {
     @Lob
     @Column(name = "universitysociety_file")
     private byte[] universitySocietyFile;
+    
+	private String activityTypeDescription;
+	private String roleDescription;
+	private String activityCategoryDescription;
 
 }

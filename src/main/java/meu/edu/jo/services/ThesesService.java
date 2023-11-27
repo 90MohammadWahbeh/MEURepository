@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import meu.edu.jo.common.SystemMessages;
 import meu.edu.jo.common.exceptions.CustomException;
 import meu.edu.jo.entities.Theses;
+import meu.edu.jo.entities.WorkshopLectureSeminar;
 import meu.edu.jo.repositories.ThesesRepository;
 
 @Service
@@ -32,7 +33,7 @@ public class ThesesService {
             Theses thesis = new Theses();
             thesis.setId(rs.getLong("Id"));
             thesis.setUserId(rs.getLong("User_Id"));
-            thesis.setTheType(rs.getString("The_Type"));
+            thesis.setTheType(rs.getLong("The_Type"));
             thesis.setLocation(rs.getString("Location"));
             thesis.setDescription(rs.getString("Description"));
             thesis.setThesesFile(rs.getBytes("Theses_File"));
@@ -42,6 +43,8 @@ public class ThesesService {
         if (theses.isEmpty()) {
             throw new CustomException(SystemMessages.NO_RECORDS);
         }
+        
+        mapValues(theses);
         return theses;
     }
 
@@ -52,7 +55,7 @@ public class ThesesService {
             Theses thesis = new Theses();
             thesis.setId(rs.getLong("Id"));
             thesis.setUserId(rs.getLong("User_Id"));
-            thesis.setTheType(rs.getString("The_Type"));
+            thesis.setTheType(rs.getLong("The_Type"));
             thesis.setLocation(rs.getString("Location"));
             thesis.setDescription(rs.getString("Description"));
             thesis.setThesesFile(rs.getBytes("Theses_File"));
@@ -62,7 +65,7 @@ public class ThesesService {
         if (theses.isEmpty()) {
             throw new CustomException(SystemMessages.NO_RECORDS + id);
         }
-
+        mapValues(theses);
         return Optional.of(theses.get(0));
     }
 
@@ -136,4 +139,21 @@ public class ThesesService {
     public Theses saveTheses(Theses theses) {
         return thesesRepository.save(theses);
     }
+    
+	private void mapValues(List<Theses> theses) {
+		theses.forEach(oneThese -> {
+			oneThese.setTypeDescription(mapType(oneThese.getTheType()));
+		});
+	}
+
+	private String mapType(Long theType) {
+		switch (theType.intValue()) {
+		case 1:
+			return "مناقش خارجي لرسالة ماجستير في جامعة أخرى";
+		case 2:
+			return "مناقش خارجي لأطروحة دكتوراة في جامعة أخرى";
+		default:
+			return null; // Or throw an exception for an unexpected value
+		}
+	}
 }

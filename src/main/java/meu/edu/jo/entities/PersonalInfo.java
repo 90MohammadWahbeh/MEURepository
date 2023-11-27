@@ -39,5 +39,11 @@ public class PersonalInfo {
 	@Lob
 	@Column(name = "IMAGE", columnDefinition = "bytea")
 	private byte[] image;
+	
+	private String academicYearDescription;
+	private String degreeDescription;
+	private String departmentDescription;
+	private String programDescription;
+	private String activityPeriodDescription;
 
 }
