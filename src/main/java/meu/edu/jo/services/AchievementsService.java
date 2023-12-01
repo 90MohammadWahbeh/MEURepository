@@ -61,6 +61,26 @@ public class AchievementsService {
 
         return Optional.of(achievements.get(0));
     }
+    
+    public List<Achievements> getAchievementsByUserId(Long userId) {
+        String sql = "SELECT * FROM achievements WHERE user_id = ?";
+        
+        @SuppressWarnings("deprecation")
+		List<Achievements> achievements = jdbcTemplate.query(sql, new Object[]{userId}, (rs, rowNum) -> {
+            Achievements achievement = new Achievements();
+            achievement.setId(rs.getLong("id"));
+            achievement.setUserId(rs.getLong("user_id"));
+            achievement.setDescription(rs.getString("description"));
+            achievement.setAchievementsFile(rs.getBytes("achievements_file"));
+            return achievement;
+        });
+
+        if (achievements.isEmpty()) {
+            throw new CustomException(SystemMessages.NO_RECORDS);
+        }
+        return achievements;
+    }
+
 
     public void deleteAchievements(Long id) {
         String sql = "DELETE FROM achievements WHERE id = ?";

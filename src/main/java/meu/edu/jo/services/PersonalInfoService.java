@@ -53,6 +53,34 @@ public class PersonalInfoService {
 		return userProfiles;
 	}
 
+	public List<PersonalInfo> getUserProfileByUserId(Long userId) {
+	    String sql = "SELECT * FROM personal_info WHERE User_Id = ?";
+	    
+	    @SuppressWarnings("deprecation")
+		List<PersonalInfo> userProfiles = jdbcTemplate.query(sql, new Object[]{userId}, (rs, rowNum) -> {
+	        PersonalInfo userProfile = new PersonalInfo();
+	        userProfile.setId(rs.getLong("Id"));
+	        userProfile.setUserId(rs.getLong("User_Id"));
+	        userProfile.setFullName(rs.getString("Full_Name"));
+	        userProfile.setJobNumber(rs.getLong("Job_Number"));
+	        userProfile.setRanking(rs.getLong("Ranking"));
+	        userProfile.setDepartment(rs.getLong("Department"));
+	        userProfile.setProgram(rs.getLong("Program"));
+	        userProfile.setActivityPeriod(rs.getLong("Activity_Period"));
+	        userProfile.setAcademicYear(rs.getLong("Academic_Year"));
+	        userProfile.setImage(rs.getBytes("Image"));
+	        return userProfile;
+	    });
+
+	    if (userProfiles.isEmpty()) {
+	        throw new CustomException(SystemMessages.NO_RECORDS);
+	    }
+
+	    mapValues(userProfiles);
+
+	    return userProfiles;
+	}
+
 	public Optional<PersonalInfo> getUserProfileById(Long id) {
 		String sql = "SELECT * FROM personal_info WHERE Id = ?";
 		@SuppressWarnings("deprecation")

@@ -79,6 +79,35 @@ public class ActivitiesService {
 		mapValues(activities);
 		return Optional.of(activities.get(0));
 	}
+	
+	public List<Activities> getActivitiesByUserId(Long userId) {
+	    String sql = "SELECT * FROM activities WHERE User_Id = ?";
+	    
+	    @SuppressWarnings("deprecation")
+		List<Activities> activities = jdbcTemplate.query(sql, new Object[]{userId}, (rs, rowNum) -> {
+	        Activities activity = new Activities();
+	        activity.setId(rs.getLong("Id"));
+	        activity.setUserId(rs.getLong("User_Id"));
+	        activity.setTheType(rs.getLong("The_Type"));
+	        activity.setTheStatus(rs.getLong("The_Status"));
+	        activity.setTheDate(rs.getDate("The_Date"));
+	        activity.setTheOrder(rs.getLong("The_Order"));
+	        activity.setTheLanguage(rs.getLong("The_Language"));
+	        activity.setTheIndex(rs.getLong("The_Index"));
+	        activity.setTitle(rs.getString("Title"));
+	        activity.setTheSource(rs.getString("The_Source"));
+	        activity.setActivityFile(rs.getBytes("Activity_File"));
+	        return activity;
+	    });
+
+	    if (activities.isEmpty()) {
+	        throw new CustomException(SystemMessages.NO_RECORDS);
+	    }
+
+	    mapValues(activities);
+	    return activities;
+	}
+
 
 	public Activities createActivity(Activities activity) {
 		String sql = "INSERT INTO activities " + "(User_Id, The_Type, The_Status, The_Date, The_Order, The_Language, "

@@ -63,6 +63,11 @@ public class PersonalInfoController {
 			throw new CustomException(SystemMessages.NO_RECORDS + e.getMessage());
 		}
 	}
+	
+    @GetMapping("/findByUserId/{userId}")
+    public List<PersonalInfo> getPersonalInfoByUserId(@PathVariable Long userId) {
+        return personalInfoService.getUserProfileByUserId(userId);
+    }
 
 	@PostMapping
 	public ResponseEntity<PersonalInfo> createUserProfile(@RequestBody PersonalInfo userProfile) {

@@ -47,6 +47,30 @@ public class ThesesService {
         mapValues(theses);
         return theses;
     }
+    
+    public List<Theses> getThesesByUserId(Long userId) {
+        String sql = "SELECT * FROM theses WHERE User_Id = ?";
+        
+        @SuppressWarnings("deprecation")
+		List<Theses> theses = jdbcTemplate.query(sql, new Object[]{userId}, (rs, rowNum) -> {
+            Theses thesis = new Theses();
+            thesis.setId(rs.getLong("Id"));
+            thesis.setUserId(rs.getLong("User_Id"));
+            thesis.setTheType(rs.getLong("The_Type"));
+            thesis.setLocation(rs.getString("Location"));
+            thesis.setDescription(rs.getString("Description"));
+            thesis.setThesesFile(rs.getBytes("Theses_File"));
+            return thesis;
+        });
+
+        if (theses.isEmpty()) {
+            throw new CustomException(SystemMessages.NO_RECORDS);
+        }
+
+        mapValues(theses);
+        return theses;
+    }
+
 
     public Optional<Theses> getThesesById(Long id) {
         String sql = "SELECT * FROM theses WHERE Id = ?";

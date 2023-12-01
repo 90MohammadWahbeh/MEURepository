@@ -55,6 +55,38 @@ public class UniversitySocietyService {
         return universitySocieties;
     }
 
+    
+    public List<UniversitySociety> getUniversitySocietiesByUserId(Long userId) {
+        String sql = "SELECT * FROM university_society_local_public_community WHERE User_Id = ?";
+        
+        @SuppressWarnings("deprecation")
+		List<UniversitySociety> universitySocieties = jdbcTemplate.query(sql, new Object[]{userId}, (rs, rowNum) -> {
+            UniversitySociety universitySociety = new UniversitySociety();
+            universitySociety.setId(rs.getLong("Id"));
+            universitySociety.setUserId(rs.getLong("User_Id"));
+            universitySociety.setTitle(rs.getString("Title"));
+            universitySociety.setTheType(rs.getLong("The_Type"));
+            universitySociety.setTheRole(rs.getLong("The_Role"));
+            universitySociety.setTheDate(rs.getDate("The_Date"));
+            universitySociety.setLocation(rs.getString("Location"));
+            universitySociety.setStudentsNumber(rs.getLong("Students_Number"));
+            universitySociety.setAcademicStaffNumber(rs.getLong("Academic_Staff_Number"));
+            universitySociety.setManagerialStaffNumber(rs.getLong("Managerial_Staff_Number"));
+            universitySociety.setNumberOfHours(rs.getLong("Number_of_Hours"));
+            universitySociety.setCategory(rs.getLong("Category"));
+            universitySociety.setDescription(rs.getString("Description"));
+            universitySociety.setUniversitySocietyFile(rs.getBytes("UniversitySociety_File"));
+            return universitySociety;
+        });
+
+        if (universitySocieties.isEmpty()) {
+            throw new CustomException(SystemMessages.NO_RECORDS);
+        }
+
+        mapValues(universitySocieties);
+        return universitySocieties;
+    }
+
     public Optional<UniversitySociety> getUniversitySocietyById(Long id) {
         String sql = "SELECT * FROM university_society_local_public_community WHERE Id = ?";
         @SuppressWarnings("deprecation")

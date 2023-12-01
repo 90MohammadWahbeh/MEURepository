@@ -72,6 +72,30 @@ public class ConferenceService {
         return Optional.of(conferences.get(0));
     }
 
+    public List<Conference> getConferencesByUserId(Long userId) {
+        String sql = "SELECT * FROM conference WHERE User_Id = ?";
+        
+        @SuppressWarnings("deprecation")
+		List<Conference> conferences = jdbcTemplate.query(sql, new Object[]{userId}, (rs, rowNum) -> {
+            Conference conference = new Conference();
+            conference.setId(rs.getLong("Id"));
+            conference.setUserId(rs.getLong("User_Id"));
+            conference.setLocation(rs.getString("Location"));
+            conference.setTheDate(rs.getDate("The_Date"));
+            conference.setTheType(rs.getLong("The_Type"));
+            conference.setTitle(rs.getString("Title"));
+            conference.setConferenceFile(rs.getBytes("Conference_File"));
+            return conference;
+        });
+
+        if (conferences.isEmpty()) {
+            throw new CustomException(SystemMessages.NO_RECORDS);
+        }
+
+        mapValues(conferences);
+        return conferences;
+    }
+
     public void deleteConference(Long id) {
         String sql = "DELETE FROM conference WHERE id = ?";
         Object[] params = {id};

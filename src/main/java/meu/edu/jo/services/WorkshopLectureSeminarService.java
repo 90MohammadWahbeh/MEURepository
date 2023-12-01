@@ -75,6 +75,34 @@ public class WorkshopLectureSeminarService {
 		mapValues(workshops);
 		return Optional.of(workshops.get(0));
 	}
+	
+	public List<WorkshopLectureSeminar> getWorkshopsByUserId(Long userId) {
+	    String sql = "SELECT * FROM workshops_lectures_seminars WHERE User_Id = ?";
+	    
+	    @SuppressWarnings("deprecation")
+		List<WorkshopLectureSeminar> workshops = jdbcTemplate.query(sql, new Object[]{userId}, (rs, rowNum) -> {
+	        WorkshopLectureSeminar workshop = new WorkshopLectureSeminar();
+	        workshop.setId(rs.getLong("Id"));
+	        workshop.setUserId(rs.getLong("User_Id"));
+	        workshop.setCategory(rs.getString("Category"));
+	        workshop.setFemaleNumber(rs.getLong("Female_Number"));
+	        workshop.setMaleNumber(rs.getLong("Male_Number"));
+	        workshop.setLocation(rs.getString("Location"));
+	        workshop.setTheDate(rs.getDate("The_Date"));
+	        workshop.setTheRole(rs.getLong("The_Role"));
+	        workshop.setTitle(rs.getString("Title"));
+	        workshop.setTheFile(rs.getBytes("The_File"));
+	        return workshop;
+	    });
+
+	    if (workshops.isEmpty()) {
+	        throw new CustomException(SystemMessages.NO_RECORDS);
+	    }
+
+	    mapValues(workshops);
+	    return workshops;
+	}
+
 
 	public void deleteWorkshop(Long id) {
 		String sql = "DELETE FROM workshops_lectures_seminars WHERE id = ?";

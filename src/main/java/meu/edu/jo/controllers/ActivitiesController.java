@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import meu.edu.jo.common.SystemMessages;
 import meu.edu.jo.common.exceptions.CustomException;
 import meu.edu.jo.entities.Activities;
+import meu.edu.jo.entities.PersonalInfo;
 import meu.edu.jo.services.ActivitiesService;
 
 @RestController
@@ -54,6 +55,15 @@ public class ActivitiesController {
 			throw e;
 		}
 	}
+	
+	
+    @GetMapping("/findByUserId/{userId}")
+    public List<Activities> getPersonalInfoByUserId(@PathVariable Long userId) {
+        return activitiesService.getActivitiesByUserId(userId);
+    }
+	
+	
+	
 
 	@PostMapping
 	public ResponseEntity<?> createActivities(@RequestBody Activities activities) {

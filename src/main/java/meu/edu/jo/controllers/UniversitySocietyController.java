@@ -2,6 +2,7 @@ package meu.edu.jo.controllers;
 
 import meu.edu.jo.common.SystemMessages;
 import meu.edu.jo.common.exceptions.CustomException;
+import meu.edu.jo.entities.Theses;
 import meu.edu.jo.entities.UniversitySociety;
 import meu.edu.jo.services.UniversitySocietyService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +47,11 @@ public class UniversitySocietyController {
         } catch (Exception e) {
             throw new CustomException(SystemMessages.NO_RECORDS + e.getMessage());
         }
+    }
+    
+    @GetMapping("/findByUserId/{userId}")
+    public List<UniversitySociety> getPersonalInfoByUserId(@PathVariable Long userId) {
+        return universitySocietyService.getUniversitySocietiesByUserId(userId);
     }
 
     @PostMapping

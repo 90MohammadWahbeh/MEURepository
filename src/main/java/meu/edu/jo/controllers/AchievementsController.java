@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import meu.edu.jo.common.SystemMessages;
 import meu.edu.jo.common.exceptions.CustomException;
 import meu.edu.jo.entities.Achievements;
+import meu.edu.jo.entities.Activities;
 import meu.edu.jo.services.AchievementsService;
 
 @RestController
@@ -53,6 +54,12 @@ public class AchievementsController {
             throw new CustomException(SystemMessages.NO_RECORDS + e.getMessage());
         }
     }
+    
+    @GetMapping("/findByUserId/{userId}")
+    public List<Achievements> getPersonalInfoByUserId(@PathVariable Long userId) {
+        return achievementsService.getAchievementsByUserId(userId);
+    }
+	
 
     @PostMapping
     public ResponseEntity<Achievements> createAchievements(@RequestBody Achievements achievements) {

@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import meu.edu.jo.common.SystemMessages;
 import meu.edu.jo.common.exceptions.CustomException;
+import meu.edu.jo.entities.Activities;
 import meu.edu.jo.entities.Theses;
 import meu.edu.jo.services.ThesesService;
 
@@ -53,7 +54,11 @@ public class ThesesController {
             throw new CustomException(SystemMessages.NO_RECORDS + e.getMessage());
         }
     }
-
+    @GetMapping("/findByUserId/{userId}")
+    public List<Theses> getPersonalInfoByUserId(@PathVariable Long userId) {
+        return thesesService.getThesesByUserId(userId);
+    }
+    
     @PostMapping
     public ResponseEntity<Theses> createTheses(@RequestBody Theses theses) {
         try {

@@ -47,6 +47,11 @@ public class WorkshopLectureSeminarController {
             throw new CustomException(SystemMessages.NO_RECORDS + e.getMessage());
         }
     }
+    
+    @GetMapping("/findByUserId/{userId}")
+    public List<WorkshopLectureSeminar> getWorkshopsByUserId(@PathVariable Long userId) {
+        return workshopService.getWorkshopsByUserId(userId);
+    }
 
     @PostMapping
     public ResponseEntity<WorkshopLectureSeminar> createWorkshop(@RequestBody WorkshopLectureSeminar workshop) {

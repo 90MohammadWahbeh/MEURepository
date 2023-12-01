@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import meu.edu.jo.common.SystemMessages;
 import meu.edu.jo.common.exceptions.CustomException;
+import meu.edu.jo.entities.Achievements;
 import meu.edu.jo.entities.Conference;
 import meu.edu.jo.services.ConferenceService;
 
@@ -48,7 +49,11 @@ public class ConferenceController {
             throw new CustomException(SystemMessages.NO_RECORDS + e.getMessage());
         }
     }
-
+    @GetMapping("/findByUserId/{userId}")
+    public List<Conference> getPersonalInfoByUserId(@PathVariable Long userId) {
+        return conferenceService.getConferencesByUserId(userId);
+    }
+	
     @PostMapping
     public ResponseEntity<Conference> createConference(@RequestBody Conference conference) {
         try {
