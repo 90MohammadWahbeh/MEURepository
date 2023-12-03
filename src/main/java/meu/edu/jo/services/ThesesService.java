@@ -37,6 +37,7 @@ public class ThesesService {
             thesis.setLocation(rs.getString("Location"));
             thesis.setDescription(rs.getString("Description"));
             thesis.setThesesFile(rs.getBytes("Theses_File"));
+            thesis.setAttType(rs.getString("att_type"));
             return thesis;
         });
 
@@ -60,6 +61,7 @@ public class ThesesService {
             thesis.setLocation(rs.getString("Location"));
             thesis.setDescription(rs.getString("Description"));
             thesis.setThesesFile(rs.getBytes("Theses_File"));
+            thesis.setAttType(rs.getString("att_type"));
             return thesis;
         });
 
@@ -83,6 +85,7 @@ public class ThesesService {
             thesis.setLocation(rs.getString("Location"));
             thesis.setDescription(rs.getString("Description"));
             thesis.setThesesFile(rs.getBytes("Theses_File"));
+            thesis.setAttType(rs.getString("att_type"));
             return thesis;
         });
 
@@ -112,8 +115,8 @@ public class ThesesService {
 
     public Theses createTheses(Theses theses) {
         String sql = "INSERT INTO theses " +
-                "(User_Id, The_Type, Location, Description, Theses_File) " +
-                "VALUES (?, ?, ?, ?, ?)";
+                "(User_Id, The_Type, Location, Description, Theses_File,att_type) " +
+                "VALUES (?, ?, ?, ?, ?,?)";
 
         // Set parameters
         Object[] params = {
@@ -121,7 +124,8 @@ public class ThesesService {
                 theses.getTheType(),
                 theses.getLocation(),
                 theses.getDescription(),
-                theses.getThesesFile()
+                theses.getThesesFile(),
+                theses.getAttType()
         };
 
         // Execute the INSERT statement and check the result
@@ -136,7 +140,7 @@ public class ThesesService {
 
     public Theses updateTheses(Long id, Theses updatedTheses) {
         String updateSql = "UPDATE theses " +
-                "SET User_Id = ?, The_Type = ?, Location = ?, Description = ?, Theses_File = ? " +
+                "SET User_Id = ?, The_Type = ?, Location = ?, Description = ?, Theses_File = ?, att_type = ? " +
                 "WHERE Id = ?";
 
         // Set parameters
@@ -146,6 +150,7 @@ public class ThesesService {
                 updatedTheses.getLocation(),
                 updatedTheses.getDescription(),
                 updatedTheses.getThesesFile(),
+                updatedTheses.getAttType(),
                 id
         };
 

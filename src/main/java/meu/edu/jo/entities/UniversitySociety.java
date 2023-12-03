@@ -58,5 +58,8 @@ public class UniversitySociety {
 	private String activityTypeDescription;
 	private String roleDescription;
 	private String activityCategoryDescription;
+	
+    @Column(name = "att_type")
+    private String attType;
 
 }

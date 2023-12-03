@@ -18,6 +18,9 @@ public class Achievements {
 
     @Column(name = "description")
     private String description;
+    
+    @Column(name = "att_type")
+    private String attType;
 
     @Lob
     @Column(name = "achievements_file")

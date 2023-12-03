@@ -41,6 +41,7 @@ public class PersonalInfoService {
 			userProfile.setActivityPeriod(rs.getLong("Activity_Period"));
 			userProfile.setAcademicYear(rs.getLong("Academic_Year"));
 			userProfile.setImage(rs.getBytes("Image"));
+			userProfile.setAttType(rs.getString("att_type"));
 			return userProfile;
 		});
 
@@ -69,6 +70,7 @@ public class PersonalInfoService {
 	        userProfile.setActivityPeriod(rs.getLong("Activity_Period"));
 	        userProfile.setAcademicYear(rs.getLong("Academic_Year"));
 	        userProfile.setImage(rs.getBytes("Image"));
+			userProfile.setAttType(rs.getString("att_type"));
 	        return userProfile;
 	    });
 
@@ -96,6 +98,7 @@ public class PersonalInfoService {
 			profile.setActivityPeriod(rs.getLong("Activity_Period"));
 			profile.setAcademicYear(rs.getLong("Academic_Year"));
 			profile.setImage(rs.getBytes("Image"));
+			profile.setAttType(rs.getString("att_type"));
 			return profile;
 		});
 
@@ -127,12 +130,12 @@ public class PersonalInfoService {
 
 	public PersonalInfo createUserProfile(PersonalInfo userProfile) {
 		String sql = "INSERT INTO personal_info (user_id, FULL_NAME, job_number, ranking, department, program, "
-				+ "activity_period, academic_year, image) " + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+				+ "activity_period, academic_year, image,att_type) " + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
 
 		// Set parameters
 		Object[] params = { userProfile.getUserId(), userProfile.getFullName(), userProfile.getJobNumber(),
 				userProfile.getRanking(), userProfile.getDepartment(), userProfile.getProgram(),
-				userProfile.getActivityPeriod(), userProfile.getAcademicYear(), userProfile.getImage() };
+				userProfile.getActivityPeriod(), userProfile.getAcademicYear(), userProfile.getImage(),userProfile.getAttType() };
 
 		// Execute the INSERT statement and check the result
 		int result = jdbcTemplate.update(sql, params);
@@ -146,12 +149,12 @@ public class PersonalInfoService {
 
 	public PersonalInfo updatePersonalInfo(Long id, PersonalInfo updatedInfo) {
 		String updateSql = "UPDATE personal_info SET user_id = ?, FULL_NAME = ?, job_number = ?, ranking = ?, "
-				+ "department = ?, program = ?, activity_period = ?, academic_year = ?, image = ? " + "WHERE id = ?";
+				+ "department = ?, program = ?, activity_period = ?, academic_year = ?, image = ?, att_type = ? " + "WHERE id = ?";
 
 		// Set parameters
 		Object[] params = { updatedInfo.getUserId(), updatedInfo.getFullName(), updatedInfo.getJobNumber(),
 				updatedInfo.getRanking(), updatedInfo.getDepartment(), updatedInfo.getProgram(),
-				updatedInfo.getActivityPeriod(), updatedInfo.getAcademicYear(), updatedInfo.getImage(), id };
+				updatedInfo.getActivityPeriod(), updatedInfo.getAcademicYear(), updatedInfo.getImage(),updatedInfo.getAttType(), id };
 
 		// Execute the UPDATE statement and check the result
 		int result = jdbcTemplate.update(updateSql, params);

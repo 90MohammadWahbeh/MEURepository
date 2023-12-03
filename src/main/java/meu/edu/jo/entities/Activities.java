@@ -46,7 +46,8 @@ public class Activities {
 	@Column(name = "Activity_File")
 	private byte[] activityFile;
 
-	
+    @Column(name = "att_type")
+    private String attType;
 	
 	private String publishTypeDescription;
 	private String publishStatusDescription;

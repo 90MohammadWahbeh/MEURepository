@@ -41,6 +41,7 @@ public class WorkshopLectureSeminarService {
 			workshop.setTheRole(rs.getLong("The_Role"));
 			workshop.setTitle(rs.getString("Title"));
 			workshop.setTheFile(rs.getBytes("The_File"));
+			workshop.setAttType(rs.getString("att_type"));
 			return workshop;
 		});
 
@@ -66,6 +67,7 @@ public class WorkshopLectureSeminarService {
 			workshop.setTheRole(rs.getLong("The_Role"));
 			workshop.setTitle(rs.getString("Title"));
 			workshop.setTheFile(rs.getBytes("The_File"));
+			workshop.setAttType(rs.getString("att_type"));
 			return workshop;
 		});
 
@@ -92,6 +94,7 @@ public class WorkshopLectureSeminarService {
 	        workshop.setTheRole(rs.getLong("The_Role"));
 	        workshop.setTitle(rs.getString("Title"));
 	        workshop.setTheFile(rs.getBytes("The_File"));
+	        workshop.setAttType(rs.getString("att_type"));
 	        return workshop;
 	    });
 
@@ -123,13 +126,13 @@ public class WorkshopLectureSeminarService {
 
 	public WorkshopLectureSeminar createWorkshop(WorkshopLectureSeminar workshop) {
 		String sql = "INSERT INTO workshops_lectures_seminars "
-				+ "(User_Id, Category, Female_Number, Male_Number, Location, The_Date, The_Role, Title, The_File) "
-				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+				+ "(User_Id, Category, Female_Number, Male_Number, Location, The_Date, The_Role, Title, The_File,att_type) "
+				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
 
 		// Set parameters
 		Object[] params = { workshop.getUserId(), workshop.getCategory(), workshop.getFemaleNumber(),
 				workshop.getMaleNumber(), workshop.getLocation(), workshop.getTheDate(), workshop.getTheRole(),
-				workshop.getTitle(), workshop.getTheFile() };
+				workshop.getTitle(), workshop.getTheFile(),workshop.getAttType() };
 
 		// Execute the INSERT statement and check the result
 		int result = jdbcTemplate.update(sql, params);
@@ -144,13 +147,13 @@ public class WorkshopLectureSeminarService {
 	public WorkshopLectureSeminar updateWorkshop(Long id, WorkshopLectureSeminar updatedWorkshop) {
 		String updateSql = "UPDATE workshops_lectures_seminars "
 				+ "SET User_Id = ?, Category = ?, Female_Number = ?, Male_Number = ?, Location = ?, "
-				+ "The_Date = ?, The_Role = ?, Title = ?, The_File = ? " + "WHERE Id = ?";
+				+ "The_Date = ?, The_Role = ?, Title = ?, The_File = ?, att_type = ? " + "WHERE Id = ?";
 
 		// Set parameters
 		Object[] params = { updatedWorkshop.getUserId(), updatedWorkshop.getCategory(),
 				updatedWorkshop.getFemaleNumber(), updatedWorkshop.getMaleNumber(), updatedWorkshop.getLocation(),
 				updatedWorkshop.getTheDate(), updatedWorkshop.getTheRole(), updatedWorkshop.getTitle(),
-				updatedWorkshop.getTheFile(), id };
+				updatedWorkshop.getTheFile(),updatedWorkshop.getAttType(), id };
 
 		// Execute the UPDATE statement and check the result
 		int result = jdbcTemplate.update(updateSql, params);

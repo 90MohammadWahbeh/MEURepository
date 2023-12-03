@@ -40,6 +40,9 @@ public class PersonalInfo {
 	@Column(name = "IMAGE", columnDefinition = "bytea")
 	private byte[] image;
 	
+    @Column(name = "att_type")
+    private String attType;
+	
 	private String academicYearDescription;
 	private String degreeDescription;
 	private String departmentDescription;

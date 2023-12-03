@@ -45,5 +45,8 @@ public class WorkshopLectureSeminar {
     private byte[] theFile;
 
 	private String theRoleDescription;
+	
+    @Column(name = "att_type")
+    private String attType;
 
 }

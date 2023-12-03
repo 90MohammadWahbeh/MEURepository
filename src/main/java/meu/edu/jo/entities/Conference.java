@@ -32,6 +32,9 @@ public class Conference {
     @Lob
     @Column(name = "conference_file")
     private byte[] conferenceFile;
-
+    
+    @Column(name = "att_type")
+    private String attType;
+    
 	private String theTypeDescription;
 }

@@ -30,4 +30,7 @@ public class Theses {
     private byte[] thesesFile;
     
 	private String typeDescription;
+	
+    @Column(name = "att_type")
+    private String attType;
 }

@@ -42,6 +42,7 @@ public class ActivitiesService {
 			activitiesConference.setTitle(rs.getString("Title"));
 			activitiesConference.setTheSource(rs.getString("The_Source"));
 			activitiesConference.setActivityFile(rs.getBytes("Activity_File"));
+			activitiesConference.setAttType(rs.getString("att_type"));
 			return activitiesConference;
 		});
 
@@ -69,6 +70,7 @@ public class ActivitiesService {
 			activity.setTitle(rs.getString("Title"));
 			activity.setTheSource(rs.getString("The_Source"));
 			activity.setActivityFile(rs.getBytes("Activity_File"));
+			activity.setAttType(rs.getString("att_type"));
 			return activity;
 		});
 
@@ -97,6 +99,7 @@ public class ActivitiesService {
 	        activity.setTitle(rs.getString("Title"));
 	        activity.setTheSource(rs.getString("The_Source"));
 	        activity.setActivityFile(rs.getBytes("Activity_File"));
+	        activity.setAttType(rs.getString("att_type"));
 	        return activity;
 	    });
 
@@ -111,7 +114,7 @@ public class ActivitiesService {
 
 	public Activities createActivity(Activities activity) {
 		String sql = "INSERT INTO activities " + "(User_Id, The_Type, The_Status, The_Date, The_Order, The_Language, "
-				+ "The_Index, Title, The_Source, Activity_File) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+				+ "The_Index, Title, The_Source, Activity_File,att_type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
 
 		// Set parameters
 		Object[] params = { activity.getUserId(), activity.getTheType(), // Updated attribute name
@@ -120,7 +123,10 @@ public class ActivitiesService {
 				activity.getTheLanguage(), // Updated attribute name
 				activity.getTheIndex(), // Updated attribute name
 				activity.getTitle(), activity.getTheSource(), // Updated attribute name
-				activity.getActivityFile() };
+				activity.getActivityFile(), 
+				activity.getAttType()
+		
+		};
 
 		// Execute the INSERT statement and check the result
 		int result = jdbcTemplate.update(sql, params);
@@ -134,7 +140,7 @@ public class ActivitiesService {
 
 	public Activities updateActivity(Long id, Activities activity) {
 		String sql = "UPDATE activities " + "SET User_Id = ?, The_Type = ?, The_Status = ?, The_Date = ?, "
-				+ "The_Order = ?, The_Language = ?, The_Index = ?, " + "Title = ?, The_Source = ?, Activity_File = ? "
+				+ "The_Order = ?, The_Language = ?, The_Index = ?, " + "Title = ?, The_Source = ?, Activity_File = ?, att_type = ? "
 				+ "WHERE Id = ?";
 
 		// Set parameters
@@ -144,7 +150,7 @@ public class ActivitiesService {
 				activity.getTheLanguage(), // Updated attribute name
 				activity.getTheIndex(), // Updated attribute name
 				activity.getTitle(), activity.getTheSource(), // Updated attribute name
-				activity.getActivityFile(), id };
+				activity.getActivityFile(),activity.getAttType(), id };
 
 		// Execute the UPDATE statement and check the result
 		int result = jdbcTemplate.update(sql, params);

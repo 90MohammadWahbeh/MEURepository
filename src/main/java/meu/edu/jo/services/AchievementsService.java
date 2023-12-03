@@ -33,6 +33,7 @@ public class AchievementsService {
             achievement.setId(rs.getLong("Id"));
             achievement.setUserId(rs.getLong("User_Id"));
             achievement.setDescription(rs.getString("Description"));
+            achievement.setAttType(rs.getString("att_type"));
             achievement.setAchievementsFile(rs.getBytes("Achievements_File"));
             return achievement;
         });
@@ -51,6 +52,7 @@ public class AchievementsService {
             achievement.setId(rs.getLong("Id"));
             achievement.setUserId(rs.getLong("User_Id"));
             achievement.setDescription(rs.getString("Description"));
+            achievement.setAttType(rs.getString("att_type"));
             achievement.setAchievementsFile(rs.getBytes("Achievements_File"));
             return achievement;
         });
@@ -71,6 +73,7 @@ public class AchievementsService {
             achievement.setId(rs.getLong("id"));
             achievement.setUserId(rs.getLong("user_id"));
             achievement.setDescription(rs.getString("description"));
+            achievement.setAttType(rs.getString("att_type"));
             achievement.setAchievementsFile(rs.getBytes("achievements_file"));
             return achievement;
         });
@@ -101,14 +104,15 @@ public class AchievementsService {
 
     public Achievements createAchievements(Achievements achievements) {
         String sql = "INSERT INTO achievements " +
-                "(User_Id, Description, Achievements_File) " +
-                "VALUES (?, ?, ?)";
+                "(User_Id, Description, Achievements_File,att_type) " +
+                "VALUES (?, ?, ?,?)";
 
         // Set parameters
         Object[] params = {
                 achievements.getUserId(),
                 achievements.getDescription(),
-                achievements.getAchievementsFile()
+                achievements.getAchievementsFile(),
+                achievements.getAttType()
         };
 
         // Execute the INSERT statement and check the result
@@ -123,7 +127,7 @@ public class AchievementsService {
 
     public Achievements updateAchievements(Long id, Achievements updatedAchievements) {
         String updateSql = "UPDATE achievements " +
-                "SET User_Id = ?, Description = ?, Achievements_File = ? " +
+                "SET User_Id = ?, Description = ?, Achievements_File = ?, att_type = ? " +
                 "WHERE Id = ?";
 
         // Set parameters
@@ -131,6 +135,7 @@ public class AchievementsService {
                 updatedAchievements.getUserId(),
                 updatedAchievements.getDescription(),
                 updatedAchievements.getAchievementsFile(),
+                updatedAchievements.getAttType(),
                 id
         };
 

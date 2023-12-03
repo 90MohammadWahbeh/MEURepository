@@ -45,6 +45,7 @@ public class UniversitySocietyService {
             universitySociety.setCategory(rs.getLong("Category"));
             universitySociety.setDescription(rs.getString("Description"));
             universitySociety.setUniversitySocietyFile(rs.getBytes("UniversitySociety_File"));
+            universitySociety.setAttType(rs.getString("att_type"));
             return universitySociety;
         });
 
@@ -76,6 +77,7 @@ public class UniversitySocietyService {
             universitySociety.setCategory(rs.getLong("Category"));
             universitySociety.setDescription(rs.getString("Description"));
             universitySociety.setUniversitySocietyFile(rs.getBytes("UniversitySociety_File"));
+            universitySociety.setAttType(rs.getString("att_type"));
             return universitySociety;
         });
 
@@ -106,6 +108,7 @@ public class UniversitySocietyService {
             universitySociety.setCategory(rs.getLong("Category"));
             universitySociety.setDescription(rs.getString("Description"));
             universitySociety.setUniversitySocietyFile(rs.getBytes("UniversitySociety_File"));
+            universitySociety.setAttType(rs.getString("att_type"));
             return universitySociety;
         });
 
@@ -137,8 +140,8 @@ public class UniversitySocietyService {
         String sql = "INSERT INTO university_society_local_public_community " +
                 "(User_Id, Title, The_Type, The_Role, The_Date, Location, Students_Number, " +
                 "Academic_Staff_Number, Managerial_Staff_Number, Number_of_Hours, Category, " +
-                "Description, UniversitySociety_File) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                "Description, UniversitySociety_File,att_type) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
 
         // Set parameters
         Object[] params = {
@@ -154,7 +157,8 @@ public class UniversitySocietyService {
                 universitySociety.getNumberOfHours(),
                 universitySociety.getCategory(),
                 universitySociety.getDescription(),
-                universitySociety.getUniversitySocietyFile()
+                universitySociety.getUniversitySocietyFile(),
+                universitySociety.getAttType()
         };
 
         // Execute the INSERT statement and check the result
@@ -172,7 +176,7 @@ public class UniversitySocietyService {
                 "SET User_Id = ?, Title = ?, The_Type = ?, The_Role = ?, The_Date = ?, " +
                 "Location = ?, Students_Number = ?, Academic_Staff_Number = ?, " +
                 "Managerial_Staff_Number = ?, Number_of_Hours = ?, Category = ?, " +
-                "Description = ?, UniversitySociety_File = ? " +
+                "Description = ?, UniversitySociety_File = ? , att_type = ? " +
                 "WHERE Id = ?";
 
         // Set parameters
@@ -190,6 +194,7 @@ public class UniversitySocietyService {
                 updatedSociety.getCategory(),
                 updatedSociety.getDescription(),
                 updatedSociety.getUniversitySocietyFile(),
+                updatedSociety.getAttType(),
                 id
         };
 
