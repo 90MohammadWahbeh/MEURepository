@@ -20,7 +20,7 @@ public class WorkshopLectureSeminar {
     private Long userId;
 
     @Column(name = "category")
-    private String category;
+    private Long category;
 
     @Column(name = "female_number")
     private Long femaleNumber;

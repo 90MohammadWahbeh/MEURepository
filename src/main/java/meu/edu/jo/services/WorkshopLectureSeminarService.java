@@ -33,7 +33,7 @@ public class WorkshopLectureSeminarService {
 			WorkshopLectureSeminar workshop = new WorkshopLectureSeminar();
 			workshop.setId(rs.getLong("Id"));
 			workshop.setUserId(rs.getLong("User_Id"));
-			workshop.setCategory(rs.getString("Category"));
+			workshop.setCategory(rs.getLong("Category"));
 			workshop.setFemaleNumber(rs.getLong("Female_Number"));
 			workshop.setMaleNumber(rs.getLong("Male_Number"));
 			workshop.setLocation(rs.getString("Location"));
@@ -59,7 +59,7 @@ public class WorkshopLectureSeminarService {
 			WorkshopLectureSeminar workshop = new WorkshopLectureSeminar();
 			workshop.setId(rs.getLong("Id"));
 			workshop.setUserId(rs.getLong("User_Id"));
-			workshop.setCategory(rs.getString("Category"));
+			workshop.setCategory(rs.getLong("Category"));
 			workshop.setFemaleNumber(rs.getLong("Female_Number"));
 			workshop.setMaleNumber(rs.getLong("Male_Number"));
 			workshop.setLocation(rs.getString("Location"));
@@ -86,7 +86,7 @@ public class WorkshopLectureSeminarService {
 	        WorkshopLectureSeminar workshop = new WorkshopLectureSeminar();
 	        workshop.setId(rs.getLong("Id"));
 	        workshop.setUserId(rs.getLong("User_Id"));
-	        workshop.setCategory(rs.getString("Category"));
+	        workshop.setCategory(rs.getLong("Category"));
 	        workshop.setFemaleNumber(rs.getLong("Female_Number"));
 	        workshop.setMaleNumber(rs.getLong("Male_Number"));
 	        workshop.setLocation(rs.getString("Location"));
